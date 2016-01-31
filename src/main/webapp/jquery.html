@@ -1,0 +1,46 @@
+<html>
+<head>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <title>AirAgency</title>
+
+    <script type="text/javascript" src="jquery-1.12.0.min.js"></script>
+
+</head>
+
+<body>
+<h1>Welcome to Defaulter Transaero!</h1>
+
+<form id="myAjaxRequestForm">
+    <fieldset>
+        <legend>Find flights</legend>
+
+        <p>
+            <label for="depCity">Departure city:</label><br />
+            <input id="depCity" type="text" name="depCity" />
+        </p>
+        <p>
+            <label for="arrCity">Arrival city:</label><br />
+            <input id="arrCity" type="text" name="arrCity" />
+        </p>
+        <p>
+            <input id="myButton" type="button" value="Shortest" />
+        </p>
+        <p>
+            <input id="myButton2" type="button" value="Cheapest" />
+        </p>
+    </fieldset>
+
+</form>
+<div id="anotherSection">
+    <fieldset>
+        <legend>Flights:</legend>
+        <div id="ajaxResponse"></div>
+    </fieldset>
+</div>
+
+</body>
+</html>
