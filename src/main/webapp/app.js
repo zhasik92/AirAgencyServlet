@@ -3,24 +3,31 @@
  */
 $(document).ready(function () {
 
-    var f = function (command, time) {
+    var f = function (command) {
         //get the form data and then serialize that
-        dataString = $("#myAjaxRequestForm").serialize();
-
+         dataString = $("#myAjaxRequestForm").serialize();
+        dataString=dataString+"&command="+command;
         //get the form data using another method
-        var depCity = $("input#depCity").val();
-        var arrCity = $("input#arrCity").val();
-        if (time == undefined) {
-            time = '';
-        }
-        dataString = "command=" + command + " " + depCity + " " + arrCity + " " + time;
-
+        //    var depCity = $("input#depCity").val();
+        //  var arrCity = $("input#arrCity").val();
+        //  var flightDate=$("input#date").val();
+        /*var flightParams = {
+          //  command:command,
+            depCity: $("input#depCity").val(),
+            arrCity: $("input#arrCity").val(),
+            flightDate: $("input#date").val(),
+        };*/
+        /*if (time == undefined) {
+         time = '';
+         }*/
+        // dataString = "command=" + command + " " + depCity + " " + arrCity + " " +flightDate;
         //make the AJAX request, dataType is set to json
         //meaning we are expecting JSON data in response from the server
         $.ajax({
             type: "POST",
             url: "sanduri",
             data: dataString,
+            //data:JSON.stringify(flightParams),
             dataType: "json",
 
             //if received a response from the server
@@ -38,13 +45,17 @@ $(document).ready(function () {
                         $("#ajaxResponse").append("<b>Price:</b> " + flight[i].price + " <br/>");
                         $("#ajaxResponse").append("<p></p>");
                     }
-                   $("#ajaxResponse").append("<form action='buy' method='post'>");
-                     $("#ajaxResponse").append("<input type='hidden' name='depCity' value='"+depCity.toString()+"'/>");
-                     $("#ajaxResponse").append("<input type='hidden' name='arrCity' value='"+arrCity.toString()+"'/>");
-                     $("#ajaxResponse").append("<input id='buyButton' type='button' value='buy'/>");
-                     $("#ajaxResponse").append("</form>");
-                    $("#buyButton").click("click", function(){
-                        $.post("buy",dataString);
+                    $("")
+                    $("#ajaxResponse").append("<form action='buy' method='post'>");
+                    $("#ajaxResponse").append("<input type='hidden' name='depCity' value='" + depCity.toString() + "'/>");
+                    $("#ajaxResponse").append("<input type='hidden' name='arrCity' value='" + arrCity.toString() + "'/>");
+                    $("#ajaxResponse").append("<input id='buyButton' type='submit' value='buy'/>");
+                    $("#ajaxResponse").append("</form>");
+                    $("#buyButton").click("click", function () {
+                        //var page = "buy?depCity=" + depCity + "&arrCity=" + arrCity + "&date=" + flightDate;
+                        var page="buy?"+dataString;
+                        alert(page);
+                        window.location = page;
                     });
                     /*$("#ajaxResponse").append("<ul id='myUL'> <li>One</li> <li>Two</li> </ul>");*/
                 }
@@ -91,7 +102,6 @@ $(document).ready(function () {
 
     $("#myButton2").click(function (e) {
         var x = 'find_short_route';
-        var time = '08:30';
-        f(x, time);
+        f(x);
     });
 });

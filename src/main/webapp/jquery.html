@@ -17,14 +17,17 @@
 <form id="myAjaxRequestForm">
     <fieldset>
         <legend>Find flights</legend>
-
         <p>
             <label for="depCity">Departure city:</label><br />
-            <input id="depCity" type="text" name="depCity" />
+            <input id="depCity" type="text" name="depCity" required/>
         </p>
         <p>
             <label for="arrCity">Arrival city:</label><br />
-            <input id="arrCity" type="text" name="arrCity" />
+            <input id="arrCity" type="text" name="arrCity" required/>
+        </p>
+        <p>
+            <label for="date">Input flight date:</label>
+            <input id="date" type="date" name="date" required/>
         </p>
         <p>
             <input id="myButton" type="button" value="Shortest" />

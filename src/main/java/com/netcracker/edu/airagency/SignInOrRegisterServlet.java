@@ -1,5 +1,8 @@
 package com.netcracker.edu.airagency;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.netcracker.edu.airagency.utils.Utils;
 
 import javax.servlet.ServletContext;
@@ -13,7 +16,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- *
  * Created by Жасулан on 23.01.2016.
  */
 public class SignInOrRegisterServlet extends HttpServlet {
@@ -31,31 +33,36 @@ public class SignInOrRegisterServlet extends HttpServlet {
 
     protected static void registerOrSignIn(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Utils.doRoutine(req, resp);
-        ServletContext sessionServletContext=req.getSession().getServletContext();
+        ServletContext sessionServletContext = req.getSession().getServletContext();
         String login = req.getParameter("login");
         String pass = req.getParameter("pass");
-        String command=req.getParameter("command");
-        BufferedReader in = (BufferedReader) sessionServletContext.getAttribute("socketInput");
-        ((PrintWriter) sessionServletContext.getAttribute("socketOut")).println(command + " " + login + " " + pass);
-        String[] serverResp = Utils.parseServerResponse(in.readLine());
-        if (serverResp[1].equals("0")) {
+        String command = req.getParameter("command");
+        BufferedReader in = (BufferedReader) sessionServletContext.getAttribute(Utils.SOCKET_INPUT);
+        ((PrintWriter) sessionServletContext.getAttribute(Utils.SOCKET_OUTPUT)).println(command + " " + login + " " + pass);
+        // String[] serverResp = Utils.parseServerResponse(in.readLine());
+        JsonParser parser = new JsonParser();
+        System.out.println("before parse");
+        JsonObject serverResp = parser.parse(in.readLine()).getAsJsonObject();
+        System.out.println(serverResp.toString());
+        if (serverResp.get("commandStatus").toString().equals("0")) {
             resp.setStatus(HttpServletResponse.SC_OK);
             if ("sign_in".equals(command)) {
-                sessionServletContext.setAttribute("status", "authorized");
+                sessionServletContext.setAttribute("authStatus", serverResp.get("authStatus").toString());
                 sessionServletContext.setAttribute("login", login);
                 System.out.println("redirecting to jquery");
-                resp.sendRedirect("jquery.html");
+                if (serverResp.get("authStatus").toString().equals("ADMIN")) {
+                    resp.sendRedirect("admin.html");
+                } else {
+                    resp.sendRedirect("jquery.html");
+                }
             }
             if ("register".equals(command)) {
                 resp.sendRedirect("index.html");
             }
-            return;
-        }
-        if (serverResp[1].equals("1")) {
+        } else {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             System.out.println("login password fail");
             resp.sendRedirect("index.html");
         }
-        resp.getWriter().println(serverResp[1]);
     }
 }

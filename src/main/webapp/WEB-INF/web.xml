@@ -28,6 +28,22 @@
         <servlet-name>buy</servlet-name>
         <url-pattern>/buy</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>addpassenger</servlet-name>
+        <servlet-class>com.netcracker.edu.airagency.BuyTicketStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addpassenger</servlet-name>
+        <url-pattern>/add_passenger</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>commands</servlet-name>
+        <servlet-class>com.netcracker.edu.airagency.BuyTicketStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>commands</servlet-name>
+        <url-pattern>/commands</url-pattern>
+    </servlet-mapping>
     <!--   <servlet>
            <servlet-name>thirdJSP</servlet-name>
            <jsp-file>third.jsp</jsp-file>
